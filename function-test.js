@@ -207,7 +207,7 @@ function selectRandomNotes(){
 }
 
 function play() { 
-
+  playing = true;
 
     const synth = new Tone.AMSynth().toMaster();
 
@@ -221,6 +221,7 @@ const synthPart = new Tone.Sequence(
     keyArray,
     "8n", "2n"
   );
+
   var snare = new Tone.NoiseSynth({
 	'volume' : -30,
 	'envelope' : {
@@ -251,11 +252,12 @@ var kick = new Tone.MembraneSynth({
 var kickPart = new Tone.Loop(function(time){
 	kick.triggerAttackRelease('C2', '8n', time);
 }, drumBeat).start(0);
+
   Tone.Transport.bpm.value = beatTime;
   synthPart.start();
   Tone.Transport.start();
 
-  playing = true
+  
   
 
 }
