@@ -7,7 +7,7 @@
   }
 
 html, body {
-//   height: 100%;
+  height: 100%;
   }
   body {
     text-align: center;
@@ -23,17 +23,21 @@ html, body {
     // height: 100%;
     }
 
-h1 {
+    h1 {
+      position: fixed;
+  top: 5vh;
+  left: 5vw;
+    }
+
+h1, #city-display {
   display: block;
   color: white;
   font-family: 'Righteous', serif;
   font-size: 6em; 
   text-shadow: .03em .03em 0 hsla(230,40%,50%,1);
-  position: fixed;
-  top: 5vh;
-  left: 5vw;
+  
   }
-  h1:after {
+  h1:after, #city-display:after {
     content: attr(data-shadow);
     position: absolute;
     top: .06em; left: .06em;
@@ -72,15 +76,86 @@ form {
 }
 input{
   height: 8vh;
+ 
   font-size: 20px;
+  border-bottom: 5px solid white;
+  
 }
 
-.play-section {
+button {
+  cursor: pointer;
+  color: white;
+  font-family: 'Righteous';
+}
+  
+input {
+  -webkit-appearance: none;
+}
+  
+button,
+input {
+  margin-bottom: 10vh;
+  border: none;
+  background: none;
+  outline: none;
+  color: inherit;
+}
+.top-banner form {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.top-banner form input {
+  font-size: 2rem;
+  height: 40px;
+  padding: 5px 5px 10px;
+  border-bottom: 1px solid white;
+}
+
+.top-banner form input::placeholder {
+  color: white;
+  font-family: sans-serif; 
+  font-weight:lighter;
+}
+
+.top-banner form button {
+  font-size: 1rem;
+  color:white;
+  font-weight: bold;
+  letter-spacing: 0.1em;
+  padding: 15px 20px;
+  margin-left: 15px;
+  border-radius: 5px;
+  background: var(--red);
+  transition: background 0.3s ease-in-out;
+}
+
+
+.top-banner form .msg {
+  position: absolute;
+  bottom: -40px;
+  left: 0;
+  max-width: 450px;
+  min-height: 40px;
+}
+
+
+#play-section {
     background-color: whitesmoke;
     position: fixed;
     height: 30vh;
     top: 75vh;
     width: 100%;
+    display: none;
+}
+
+#city-display {
+  margin-bottom: 10vh;
+  position: fixed;
+  color: black;
+  text-align: center;
+  
 }
 
 #play-button {

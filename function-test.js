@@ -10,6 +10,8 @@ let respString;
 let data;
 let drumBeat;
 let playing = false;
+let respVar;
+let resp;
 
 const form = document.querySelector(".top-banner form");
 const input = document.querySelector(".top-banner input");
@@ -22,6 +24,13 @@ const apiKey = "c84c1b8c3e68ee2ba26917c14a518980";
 form.addEventListener("submit", e => {
   e.preventDefault();
   let inputVal = input.value;
+ 
+  // change page
+  document.getElementById("play-section").style.display = "block";
+  console.log("1 inputVal =" + inputVal)
+  document.getElementById("submit-button").style.display = "none";
+  document.getElementById("input-city").style.display = "none";
+  document.getElementById("city-display").innerHTML= inputVal;
 
   //check if there's already a city
   const listItems = list.querySelectorAll(".ajax-section .city");
@@ -64,18 +73,21 @@ form.addEventListener("submit", e => {
   fetch(url)
   .then(response => response.json())
   .then(data => {
-    console.log(data);
-     return data;
+    respVar = JSON.stringify(data);
+     
   })
   .catch(() => {
     msg.textContent = "Please search for a valid city 😩";
   });
-
+  
   msg.textContent = "";
   form.reset();
   input.focus();
 });
 
+function showPlaySection() {
+  
+}
 
 
 
@@ -83,13 +95,13 @@ form.addEventListener("submit", e => {
 $("#play-button").click(function () {
    
     
-    if (!playing) {
+    
         getKeyArray();
         getBeatTime();
         getDrumsTime();
         selectRandomNotes();
         play();
-    }
+    
        
             
     });
@@ -109,31 +121,34 @@ var intervalId=-1;
 var increase=0;
 
 function getKeyArray(){
-    console.log("keyarray function " + data);
-    if (data.weather[0].main == "Clear") {
+    console.log("keyarray function " + respVar);
+    console.log("keyarray function " + respVar.weather);
+    resp = JSON.parse(respVar);
+    console.log(resp.weather);
+    if (resp.weather[0].main == "Clear") {
         //cmaj
         keyArray = ["C3", "D3", "E3", "F3", "G3", "A3", "B3", null];
         key= "cmaj"
         // console.log(sound1);
     }
 
-    else if (data.weather[0].main == "Rain") {
+    else if (resp.weather[0].main == "Rain") {
         //d major D, E, F♯, G, A, B, C♯
         keyArray = ["D3", "E3", "F#3", "G3", "A3", "B3", "C#", null];
         key= "c#min"
         // console.log(sound1);
     }
-    else if(data.weather[0].main == "Clouds") {
+    else if (resp.weather[0].main == "Clouds") {
         // fminor
         keyArray = ["F3", "G3", "Ab3", "Bb3", "C3", "Db3", "Eb3", null]
         
     }
-    else if(data.weather[0].main == "Snow") {
+    else if(resp.weather[0].main == "Snow") {
         // eb major
         keyArray = ["Eb3", "F3", "G3", "Ab3", "Bb3", "C3", "D3", null]
         key = "cmin"
     }
-    else if(data.weather[0].main == "Fog") {
+    else if(resp.weather[0].main == "Fog") {
         // b minor B, C♯, D, E, F♯, G, A
         keyArray = ["B3", "C#3", "D3", "E3", "F#3", "G3", "A3", null]
         key = "cmin"
@@ -149,23 +164,26 @@ function getKeyArray(){
 }
 
 function getBeatTime(){
-    beatTime = Math.floor((data.main.temp) - 200);
+  resp = JSON.parse(respVar);
+    beatTime = Math.floor((resp.main.temp) - 200);
     console.log(beatTime);
     return beatTime;
 }
 
+
 function getDrumsTime() {
-    console.log("wind speed " + data.wind.speed)
-    if (data.wind.speed < 2) {
+  resp = JSON.parse(respVar);
+    console.log("wind speed " + resp.wind.speed)
+    if (resp.wind.speed < 2) {
         drumBeat = "2n"
     }
-    if (data.wind.speed > 2 && data.wind.speed < 4){
+    if (resp.wind.speed > 2 && resp.wind.speed < 4){
         drumbeat = "4n"
     }
-    if (data.wind.speed > 4 && data.wind.speed < 8){
+    if (resp.wind.speed > 4 && resp.wind.speed < 8){
         drumbeat = "8n"
     }
-    if (data.wind.speed > 8 && data.wind.speed < 16){
+    if (resp.wind.speed > 8 && resp.wind.speed < 16){
         drumbeat = "16n"
     }
     else {
