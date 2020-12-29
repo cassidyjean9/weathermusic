@@ -28,6 +28,19 @@ $.ajax(settings).done(function (response) {
    return respVar;
 });
 
+form.addEventListener("submit", e => {
+    e.preventDefault();
+    let inputVal = input.value;
+   
+    // change page
+    document.getElementById("play-section").style.display = "block";
+    console.log("1 inputVal =" + inputVal)
+    document.getElementById("submit-button").style.display = "none";
+    document.getElementById("input-city").style.display = "none";
+    document.getElementById("city-display").innerHTML= inputVal;
+
+});
+
 
 //    let synth = new Synth().toMaster();
 $("#play-button").click(function () {
@@ -143,7 +156,7 @@ function play() {
     const synth = new Tone.AMSynth().toMaster();
 
 
-
+    
 const synthPart = new Tone.Sequence(
     function(time, note) {
       synth.triggerAttackRelease(note, "10hz", time);
@@ -186,7 +199,7 @@ var kickPart = new Tone.Loop(function(time){
   synthPart.start();
   Tone.Transport.start();
 
-  playing = true
+  playing = true;
   
 
 }

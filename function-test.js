@@ -95,16 +95,18 @@ function showPlaySection() {
 $("#play-button").click(function () {
    
     
-    
+    if (!playing) {
         getKeyArray();
         getBeatTime();
         getDrumsTime();
         selectRandomNotes();
         play();
+
+    }
     
        
             
-    });
+  });
 
     
 $("#stop-button").click(function(){
@@ -148,8 +150,13 @@ function getKeyArray(){
         keyArray = ["Eb3", "F3", "G3", "Ab3", "Bb3", "C3", "D3", null]
         key = "cmin"
     }
+    else if(resp.weather[0].main == "Drizzle") {
+      // eb major
+      keyArray = ["Eb3", "F3", "G3", "Ab3", "Bb3", "C3", "D3", null]
+      key = "cmin"
+  }
     else if(resp.weather[0].main == "Fog") {
-        // b minor B, C♯, D, E, F♯, G, A
+        // 
         keyArray = ["B3", "C#3", "D3", "E3", "F#3", "G3", "A3", null]
         key = "cmin"
     }
@@ -165,7 +172,7 @@ function getKeyArray(){
 
 function getBeatTime(){
   resp = JSON.parse(respVar);
-    beatTime = Math.floor((resp.main.temp) - 200);
+    beatTime = Math.floor((resp.main.temp) + 50);
     console.log(beatTime);
     return beatTime;
 }
@@ -208,6 +215,8 @@ function selectRandomNotes(){
 
 function play() { 
   playing = true;
+  Tone.Transport.bpm.value = beatTime;
+  const now = Tone.now()
 
     const synth = new Tone.AMSynth().toMaster();
 
@@ -216,7 +225,6 @@ function play() {
 const synthPart = new Tone.Sequence(
     function(time, note) {
       synth.triggerAttackRelease(note, "10hz", time);
-      
     },
     keyArray,
     "8n", "2n"
@@ -238,7 +246,7 @@ const synthPart = new Tone.Sequence(
 
   var snarePart = new Tone.Loop(function(time){
 	snare.triggerAttack(time);
-}, drumBeat).start(1);
+}, drumBeat).start(now + 1);
 
 var kick = new Tone.MembraneSynth({
 	'envelope' : {
@@ -251,11 +259,13 @@ var kick = new Tone.MembraneSynth({
 
 var kickPart = new Tone.Loop(function(time){
 	kick.triggerAttackRelease('C2', '8n', time);
-}, drumBeat).start(0);
+}, drumBeat).start();
 
-  Tone.Transport.bpm.value = beatTime;
-  synthPart.start();
+  
   Tone.Transport.start();
+  synthPart.start();
+
+
 
   
   
