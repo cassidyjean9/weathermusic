@@ -17,8 +17,7 @@ const form = document.querySelector(".top-banner form");
 const input = document.querySelector(".top-banner input");
 const msg = document.querySelector(".top-banner .msg");
 const list = document.querySelector(".ajax-section .cities");
-/*PUT YOUR OWN KEY HERE - THIS MIGHT NOT WORK
-SUBSCRIBE HERE: https://home.openweathermap.org/users/sign_up*/
+//API KEY
 const apiKey = "c84c1b8c3e68ee2ba26917c14a518980";
 
 form.addEventListener("submit", e => {
@@ -86,6 +85,8 @@ form.addEventListener("submit", e => {
 });
 
 function showPlaySection() {
+
+
   
 }
 
@@ -94,6 +95,8 @@ function showPlaySection() {
 
 $("#play-button").click(function () {
    
+
+  console.log(respVar)
     
     if (!playing) {
         getKeyArray();
